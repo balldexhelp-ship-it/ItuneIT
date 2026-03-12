@@ -176,9 +176,8 @@
         });
 
         let history = JSON.parse(localStorage.getItem('ituneit_recent') || '[]');
-        let progressTimer = null;
-        let isPlaying = false;
         let currentAudio = null;
+        let isPlaying = false;
 
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
@@ -245,44 +244,32 @@
             document.getElementById('player-name').textContent = data.title || 'Unknown';
             document.getElementById('player-artist').textContent = data.artist || '—';
 
-            const bar = document.getElementById('progress-bar');
-            bar.style.width = '0%';
-            if (progressTimer) clearInterval(progressTimer);
-
-            let progress = 0;
-            progressTimer = setInterval(() => {
-                progress += 2;
-                if (progress >= 100) {
-                    clearInterval(progressTimer);
-                    progress = 0;
-                    isPlaying = false;
-                    document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-play ml-0.5"></i>';
-                }
-                bar.style.width = progress + '%';
-            }, 600);
-
-            document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
-            isPlaying = true;
-            addToHistory(data);
-
-            // Play preview if available
-            if (data.preview) {
-                if (currentAudio) currentAudio.pause();
-                currentAudio = new Audio(data.preview);
-                currentAudio.play().catch(() => console.log('Autoplay blocked'));
+            // Stop any previous audio
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio = null;
             }
+
+            if (data.preview) {
+                currentAudio = new Audio(data.preview);
+                currentAudio.play().catch(e => {
+                    console.log('Autoplay blocked - user must interact first', e);
+                    alert('Click play again or interact with the page to start audio (browser policy)');
+                });
+            } else {
+                console.log('No preview available for this track');
+            }
+
+            addToHistory(data);
         }
 
         document.getElementById('play-pause-btn').onclick = () => {
             if (currentAudio) {
-                if (isPlaying) {
-                    currentAudio.pause();
-                    document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-play ml-0.5"></i>';
+                if (currentAudio.paused) {
+                    currentAudio.play().catch(() => console.log('Play failed'));
                 } else {
-                    currentAudio.play().catch(() => {});
-                    document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    currentAudio.pause();
                 }
-                isPlaying = !isPlaying;
             }
         };
 
@@ -332,7 +319,7 @@
                             title: titleEl.textContent,
                             artist: artistEl.textContent,
                             art: img.src,
-                            preview: '' // albums don't have preview, so skip
+                            preview: '' // albums don't have preview
                         });
                     };
                 });
@@ -386,7 +373,7 @@
                             </div>
                             <div class="text-sm font-medium truncate">${item.trackName}</div>
                             <div class="text-xs text-gray-400 truncate">${item.artistName}</div>
-                            ${preview ? `<audio controls src="${preview}"></audio>` : '<p class="text-xs text-gray-500 mt-2">No preview</p>'}
+                            ${preview ? `<audio controls src="${preview}"></audio>` : '<p class="text-xs text-gray-500 mt-2">No preview available</p>'}
                         `;
                         card.onclick = () => playTrack({
                             title: item.trackName,
