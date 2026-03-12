@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>iTuneIT – Free Music Search</title>
+    <title>iTuneIT – Free Music</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
@@ -11,405 +11,162 @@
         .card:hover { transform: translateY(-6px); }
         .card:hover .play-overlay { opacity: 1; }
         audio { width: 100%; height: 34px; margin-top: 8px; }
-        #mobile-menu-toggle { touch-action: manipulation; pointer-events: auto; z-index: 60; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col md:flex-row">
+<body class="min-h-screen">
 
-    <!-- Sidebar -->
-    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-72 bg-gray-950 border-r border-gray-800 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
-        <div class="p-6">
-            <div class="flex items-center gap-3 mb-10">
-                <img src="https://i.postimg.cc/bwkSCz8P/Untitled1900-20260312002023.png" alt="logo" class="w-10 h-10 rounded-lg">
-                <span class="text-2xl font-bold">iTuneIT</span>
+    <div class="max-w-7xl mx-auto p-4 md:p-8">
+
+        <header class="flex items-center justify-between mb-10">
+            <div class="flex items-center gap-3">
+                <img src="https://i.postimg.cc/bwkSCz8P/Untitled1900-20260312002023.png" alt="logo" class="w-12 h-12 rounded-xl">
+                <h1 class="text-3xl font-bold">iTuneIT</h1>
             </div>
-
-            <nav class="space-y-1 mb-10">
-                <button onclick="showView('home')" class="w-full flex items-center gap-4 px-4 py-3 rounded-md hover:bg-gray-800 transition text-left nav-home bg-gray-800">
-                    <i class="fa-solid fa-home w-5"></i>
-                    <span>Home</span>
-                </button>
-                <button onclick="showView('search')" class="w-full flex items-center gap-4 px-4 py-3 rounded-md hover:bg-gray-800 transition text-left nav-search">
-                    <i class="fa-solid fa-search w-5"></i>
-                    <span>Search</span>
-                </button>
-                <button onclick="showView('library')" class="w-full flex items-center gap-4 px-4 py-3 rounded-md hover:bg-gray-800 transition text-left nav-library">
-                    <i class="fa-solid fa-book w-5"></i>
-                    <span>Your Library</span>
-                </button>
-            </nav>
-
-            <div class="mt-6">
-                <h3 class="text-xs uppercase tracking-widest text-gray-500 font-semibold mb-4">Recently Played</h3>
-                <div id="recent-list" class="space-y-3 text-sm"></div>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Mobile overlay -->
-    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden md:hidden"></div>
-
-    <!-- Main content -->
-    <main class="flex-1 flex flex-col overflow-hidden">
-
-        <!-- Top bar -->
-        <header class="h-16 bg-gradient-to-b from-black to-transparent px-4 md:px-6 flex items-center relative z-50">
-            <button id="mobile-menu-toggle" class="md:hidden text-white text-2xl focus:outline-none p-2 -ml-2">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-
-            <div class="flex-1"></div>
         </header>
 
-        <!-- Views -->
-        <div class="flex-1 overflow-y-auto px-4 sm:px-6 lg:px-8 py-8">
-
-            <!-- Home -->
-            <div id="view-home" class="view">
-                <h1 class="text-3xl sm:text-4xl font-bold mb-8">Good evening</h1>
-                <div id="home-content" class="space-y-10"></div>
-            </div>
-
-            <!-- Search -->
-            <div id="view-search" class="view hidden flex flex-col items-center pt-10 md:pt-24">
-                <h1 class="text-4xl md:text-6xl font-bold mb-10 text-center">Search the way</h1>
-                <div class="w-full max-w-2xl px-4">
-                    <div class="bg-gray-900 rounded-full flex items-center px-6 py-4 text-lg shadow-2xl">
-                        <i class="fa-solid fa-search text-gray-500 mr-4 text-2xl"></i>
-                        <input id="search-input" type="text" placeholder="Artists, songs, genres..." class="bg-transparent outline-none flex-1 text-lg" autocomplete="off">
-                    </div>
-                    <div id="search-results" class="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
-                    <div id="search-loading" class="hidden col-span-full text-center text-gray-400 py-16 text-lg">Searching...</div>
-                    <div id="search-empty" class="hidden col-span-full text-center text-gray-400 py-16 text-lg">No results found</div>
-                </div>
-            </div>
-
-            <!-- Library -->
-            <div id="view-library" class="view hidden">
-                <h1 class="text-3xl sm:text-4xl font-bold mb-8">Your Library</h1>
-                <p class="text-gray-400 mb-8">Recently played tracks appear here and in the sidebar.</p>
-                <div id="library-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
+        <!-- Search bar -->
+        <div class="mb-12">
+            <div class="bg-gray-900 rounded-full flex items-center px-6 py-4 max-w-2xl mx-auto shadow-2xl">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 mr-4 text-2xl"></i>
+                <input id="search-input" type="text" placeholder="Search songs, artists..." 
+                       class="bg-transparent outline-none flex-1 text-lg" autocomplete="off">
             </div>
         </div>
+
+        <!-- Status -->
+        <div id="loading" class="hidden text-center text-gray-400 py-16 text-xl">Searching...</div>
+        <div id="no-results" class="hidden text-center text-gray-400 py-16 text-xl">No results found</div>
+
+        <!-- Results -->
+        <div id="results" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"></div>
 
         <!-- Bottom player -->
-        <div class="fixed bottom-0 left-0 right-0 h-20 bg-gray-900 border-t border-gray-800 flex items-center px-4 gap-4 z-40">
-            <div class="flex items-center gap-3 flex-1 min-w-0">
-                <div class="w-12 h-12 bg-gray-800 rounded overflow-hidden flex-shrink-0">
-                    <img id="player-art" src="https://via.placeholder.com/64" alt="" class="w-full h-full object-cover">
-                </div>
-                <div class="min-w-0">
-                    <div id="player-title" class="text-sm font-medium truncate">Nothing playing</div>
-                    <div id="player-artist" class="text-xs text-gray-400 truncate">—</div>
-                </div>
+        <div class="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 p-4 flex items-center gap-4 z-50">
+            <img id="player-art" src="https://via.placeholder.com/64" alt="" class="w-14 h-14 rounded object-cover">
+            <div class="flex-1 min-w-0">
+                <div id="player-title" class="font-medium truncate">Nothing playing</div>
+                <div id="player-artist" class="text-sm text-gray-400 truncate">—</div>
             </div>
-
-            <div class="flex items-center gap-5 md:gap-8 text-gray-300">
-                <button><i class="fa-solid fa-shuffle fa-sm"></i></button>
-                <button><i class="fa-solid fa-backward-step"></i></button>
-                <button id="play-pause-btn" class="w-10 h-10 md:w-12 md:h-12 bg-green-500 rounded-full flex items-center justify-center text-black hover:scale-105 transition">
-                    <i class="fa-solid fa-play ml-0.5"></i>
-                </button>
-                <button id="stop-all-btn" class="w-10 h-10 md:w-12 md:h-12 bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-105 transition">
-                    <i class="fa-solid fa-stop"></i>
-                </button>
-                <button><i class="fa-solid fa-forward-step"></i></button>
-                <button><i class="fa-solid fa-repeat fa-sm"></i></button>
-            </div>
+            <button id="play-pause" class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-black">
+                <i class="fa-solid fa-play"></i>
+            </button>
         </div>
-    </main>
+    </div>
 
     <script>
-        // Mobile menu toggle
-        document.addEventListener('DOMContentLoaded', () => {
-            const toggleBtn = document.getElementById('mobile-menu-toggle');
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebar-overlay');
+        const searchInput = document.getElementById('search-input');
+        const resultsDiv = document.getElementById('results');
+        const loadingDiv = document.getElementById('loading');
+        const noResultsDiv = document.getElementById('no-results');
+        const playerArt = document.getElementById('player-art');
+        const playerTitle = document.getElementById('player-title');
+        const playerArtist = document.getElementById('player-artist');
+        const playPauseBtn = document.getElementById('play-pause');
 
-            if (toggleBtn && sidebar && overlay) {
-                toggleBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    sidebar.classList.toggle('-translate-x-full');
-                    overlay.classList.toggle('hidden');
-                });
-
-                overlay.addEventListener('click', () => {
-                    sidebar.classList.add('-translate-x-full');
-                    overlay.classList.add('hidden');
-                });
-            }
-        });
-
-        let history = JSON.parse(localStorage.getItem('ituneit_recent') || '[]');
         let currentAudio = null;
         let isPlaying = false;
-        let progressTimer = null;
 
-        function showView(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
-            document.getElementById(`view-${viewId}`).classList.remove('hidden');
-
-            document.querySelectorAll('[onclick^="showView"]').forEach(btn => {
-                btn.classList.remove('bg-spotify-lightgray');
-            });
-            document.querySelector(`[onclick="showView('${viewId}')"]`)?.classList.add('bg-spotify-lightgray');
-
-            if (window.innerWidth < 768) {
-                document.getElementById('sidebar').classList.add('-translate-x-full');
-                document.getElementById('sidebar-overlay').classList.add('hidden');
-            }
-
-            if (viewId === 'search') {
-                document.getElementById('search-input').focus();
-            }
+        function updatePlayer(title, artist, art) {
+            playerArt.src = art || 'https://via.placeholder.com/64';
+            playerTitle.textContent = title || 'Nothing playing';
+            playerArtist.textContent = artist || '—';
         }
 
-        function addToHistory(item) {
-            history = history.filter(i => i.title !== item.title);
-            history.unshift(item);
-            if (history.length > 15) history.pop();
-            localStorage.setItem('ituneit_recent', JSON.stringify(history));
-            renderHistory();
-        }
-
-        function renderHistory() {
-            const container = document.getElementById('recent-list');
-            container.innerHTML = history.length === 0 ? '<p class="text-gray-500 text-sm">No recent plays</p>' : '';
-
-            history.forEach(item => {
-                const el = document.createElement('div');
-                el.className = 'flex gap-3 items-center p-2 rounded-md hover:bg-gray-800 cursor-pointer transition';
-                el.innerHTML = `
-                    <img src="${item.art || 'https://via.placeholder.com/40'}" alt="" class="w-10 h-10 rounded object-cover">
-                    <div class="min-w-0">
-                        <div class="text-sm truncate">${item.title}</div>
-                        <div class="text-xs text-gray-500 truncate">${item.artist}</div>
-                    </div>
-                `;
-                el.onclick = () => playTrack(item);
-                container.appendChild(el);
-            });
-
-            const libGrid = document.getElementById('library-grid');
-            libGrid.innerHTML = '';
-            history.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'bg-gray-900 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition';
-                card.innerHTML = `
-                    <img src="${item.art || 'https://via.placeholder.com/200'}" class="w-full aspect-square object-cover rounded mb-2">
-                    <div class="text-sm font-medium truncate">${item.title}</div>
-                    <div class="text-xs text-gray-400 truncate">${item.artist}</div>
-                `;
-                card.onclick = () => playTrack(item);
-                libGrid.appendChild(card);
-            });
-        }
-
-        function stopAllMusic() {
+        function playTrack(title, artist, previewUrl, art) {
             if (currentAudio) {
                 currentAudio.pause();
-                currentAudio.currentTime = 0;
                 currentAudio = null;
             }
-            document.querySelectorAll('audio').forEach(a => {
-                a.pause();
-                a.currentTime = 0;
-            });
-            if (progressTimer) {
-                clearInterval(progressTimer);
-                progressTimer = null;
-            }
-            document.getElementById('progress-bar').style.width = '0%';
-            document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-play ml-0.5"></i>';
-            isPlaying = false;
-            document.getElementById('player-name').textContent = 'Nothing playing';
-            document.getElementById('player-artist').textContent = '—';
-            document.getElementById('player-cover').src = 'https://via.placeholder.com/64';
-        }
 
-        function playTrack(data) {
-            stopAllMusic(); // Clean slate
+            updatePlayer(title, artist, art);
 
-            document.getElementById('player-cover').src = data.art || 'https://via.placeholder.com/64';
-            document.getElementById('player-name').textContent = data.title || 'Unknown';
-            document.getElementById('player-artist').textContent = data.artist || '—';
-
-            if (data.preview) {
-                currentAudio = new Audio(data.preview);
-                currentAudio.play().catch(e => {
-                    console.log('Playback failed - likely autoplay policy:', e);
-                });
+            if (previewUrl) {
+                currentAudio = new Audio(previewUrl);
+                currentAudio.play().catch(() => console.log('Autoplay blocked'));
                 isPlaying = true;
-                document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
-
-                // Progress animation
-                const duration = currentAudio.duration || 30;
-                progressTimer = setInterval(() => {
-                    const current = currentAudio.currentTime || 0;
-                    const percent = (current / duration) * 100;
-                    document.getElementById('progress-bar').style.width = percent + '%';
-                    if (current >= duration) {
-                        clearInterval(progressTimer);
-                        stopAllMusic();
-                    }
-                }, 200);
+                playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
             }
-
-            addToHistory(data);
         }
 
-        document.getElementById('play-pause-btn').onclick = () => {
+        playPauseBtn.onclick = () => {
             if (currentAudio) {
-                if (currentAudio.paused) {
-                    currentAudio.play().catch(() => {});
-                    document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
-                    isPlaying = true;
-                } else {
+                if (isPlaying) {
                     currentAudio.pause();
-                    document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-play ml-0.5"></i>';
-                    isPlaying = false;
+                    playPauseBtn.innerHTML = '<i class="fa-solid fa-play"></i>';
+                } else {
+                    currentAudio.play().catch(() => {});
+                    playPauseBtn.innerHTML = '<i class="fa-solid fa-pause"></i>';
                 }
+                isPlaying = !isPlaying;
             }
         };
 
-        document.getElementById('stop-all-btn').onclick = stopAllMusic;
-
-        async function loadHomeTracks() {
-            const container = document.getElementById('home-content');
-            container.innerHTML = '<p class="text-center text-gray-500 py-16">Loading popular tracks...</p>';
-
-            try {
-                const res = await fetch('https://api.jamendo.com/v3.0/tracks/?client_id=b6747d04&format=jsonpretty&limit=18&order=popularity_week');
-                const data = await res.json();
-
-                if (!data.results?.length) throw new Error('No tracks');
-
-                container.innerHTML = '';
-                const section = document.createElement('div');
-                section.innerHTML = `
-                    <h2 class="text-2xl font-bold mb-6">Popular right now</h2>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
-                        ${data.results.map(track => {
-                            const art = track.album_image || track.image || 'https://via.placeholder.com/600';
-                            const preview = track.audio || track.audios?.[0]?.download || '';
-                            return `
-                                <div class="bg-spotify-gray p-4 rounded-xl cursor-pointer card-hover group">
-                                    <div class="relative">
-                                        <img src="${art}" alt="${track.name}" class="w-full aspect-square object-cover rounded-lg mb-3">
-                                        <button class="play-btn absolute bottom-5 right-5 w-10 h-10 bg-spotify-green rounded-full flex items-center justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition shadow-lg">
-                                            <i class="fa-solid fa-play text-black ml-1"></i>
-                                        </button>
-                                    </div>
-                                    <div class="font-medium text-sm truncate">${track.name}</div>
-                                    <div class="text-xs text-gray-400 truncate">${track.artist_name}</div>
-                                    ${preview ? `<audio controls src="${preview}"></audio>` : '<p class="text-xs text-gray-500 mt-2">No preview</p>'}
-                                </div>
-                            `;
-                        }).join('')}
+        function renderTrack(track) {
+            const preview = track.url || track.preview_url || '';
+            const art = track.image_file || 'https://via.placeholder.com/400';
+            const title = track.title || 'Unknown';
+            const artist = track.artist_name || 'Unknown';
+            const card = document.createElement('div');
+            card.className = 'bg-gray-900 p-4 rounded-xl cursor-pointer hover:bg-gray-800 transition card-hover group';
+            card.innerHTML = `
+                <div class="relative">
+                    <img src="${art}" alt="${title}" class="w-full aspect-square object-cover rounded-lg mb-3">
+                    <div class="play-overlay absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                        <button class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center text-black shadow-xl">
+                            <i class="fa-solid fa-play text-3xl ml-1"></i>
+                        </button>
                     </div>
-                `;
-                container.appendChild(section);
-
-                container.querySelectorAll('.card-hover').forEach(card => {
-                    card.onclick = () => {
-                        const titleEl = card.querySelector('.font-medium');
-                        const artistEl = card.querySelector('.text-gray-400');
-                        const img = card.querySelector('img');
-                        const preview = card.querySelector('audio')?.src || '';
-                        playTrack({
-                            title: titleEl.textContent,
-                            artist: artistEl.textContent,
-                            art: img.src,
-                            preview
-                        });
-                    };
-                });
-            } catch (err) {
-                container.innerHTML = '<p class="text-center text-gray-500 py-16">Could not load tracks</p>';
-            }
+                </div>
+                <div class="font-medium truncate">${title}</div>
+                <div class="text-sm text-gray-400 truncate">${artist}</div>
+                ${preview ? `<audio controls src="${preview}"></audio>` : '<p class="text-xs text-gray-500 mt-2">No preview</p>'}
+            `;
+            card.onclick = () => playTrack(title, artist, preview, art);
+            resultsDiv.appendChild(card);
         }
 
-        // Search with Jamendo
-        const searchInput = document.getElementById('search-input');
-        const resultsDiv = document.getElementById('search-results');
-        const loadingDiv = document.getElementById('search-loading');
-        const emptyDiv = document.getElementById('search-empty');
-
-        let searchTimeout = null;
-
-        function doSearch(query) {
-            if (query.length < 2) {
-                resultsDiv.innerHTML = '';
-                loadingDiv.classList.add('hidden');
-                emptyDiv.classList.add('hidden');
-                return;
-            }
-
+        async function search(query = 'electronic') {
             loadingDiv.classList.remove('hidden');
-            emptyDiv.classList.add('hidden');
+            noResultsDiv.classList.add('hidden');
             resultsDiv.innerHTML = '';
 
-            fetch(`https://api.jamendo.com/v3.0/tracks/?client_id=b6747d04&format=jsonpretty&limit=20&search=${encodeURIComponent(query)}&order=popularity_week`)
-                .then(res => res.json())
-                .then(data => {
-                    loadingDiv.classList.add('hidden');
+            try {
+                // FMA public search (no key needed for basic)
+                const url = `https://freemusicarchive.org/api/get/tracks.json?query=${encodeURIComponent(query)}&limit=24`;
+                const res = await fetch(url);
+                const data = await res.json();
 
-                    if (!data.results?.length) {
-                        emptyDiv.classList.remove('hidden');
-                        return;
-                    }
+                loadingDiv.classList.add('hidden');
 
-                    resultsDiv.innerHTML = '';
-                    data.results.forEach(track => {
-                        const preview = track.audio || track.audios?.[0]?.download || '';
-                        const art = track.album_image || track.image || 'https://via.placeholder.com/400';
-                        const card = document.createElement('div');
-                        card.className = 'bg-spotify-gray p-3 rounded-xl cursor-pointer card-hover group';
-                        card.innerHTML = `
-                            <div class="relative">
-                                <img src="${art}" class="w-full aspect-square object-cover rounded mb-2">
-                                <button class="play-btn absolute bottom-3 right-3 w-9 h-9 bg-spotify-green rounded-full flex items-center justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition shadow-lg">
-                                    <i class="fa-solid fa-play text-black ml-1 text-sm"></i>
-                                </button>
-                            </div>
-                            <div class="text-sm font-medium truncate">${track.name}</div>
-                            <div class="text-xs text-gray-400 truncate">${track.artist_name}</div>
-                            ${preview ? `<audio controls src="${preview}"></audio>` : '<p class="text-xs text-gray-500 mt-2">No preview</p>'}
-                        `;
-                        card.onclick = () => playTrack({
-                            title: track.name,
-                            artist: track.artist_name,
-                            art,
-                            preview
-                        });
-                        resultsDiv.appendChild(card);
-                    });
-                })
-                .catch(() => {
-                    loadingDiv.classList.add('hidden');
-                    resultsDiv.innerHTML = '<p class="col-span-full text-red-400 text-center py-16">Error loading results</p>';
-                });
+                if (!data.dataset || data.dataset.length === 0) {
+                    noResultsDiv.classList.remove('hidden');
+                    return;
+                }
+
+                data.dataset.forEach(track => renderTrack(track));
+            } catch (err) {
+                loadingDiv.classList.add('hidden');
+                resultsDiv.innerHTML = '<p class="col-span-full text-red-400 text-center py-16">Error loading tracks</p>';
+            }
         }
 
+        // Live typing + Enter
+        let timeout = null;
         searchInput.addEventListener('input', e => {
-            clearTimeout(searchTimeout);
-            const query = e.target.value.trim();
-            searchTimeout = setTimeout(() => doSearch(query), 400);
+            clearTimeout(timeout);
+            timeout = setTimeout(() => search(e.target.value.trim()), 400);
         });
 
         searchInput.addEventListener('keypress', e => {
             if (e.key === 'Enter') {
                 e.preventDefault();
-                clearTimeout(searchTimeout);
-                doSearch(searchInput.value.trim());
+                clearTimeout(timeout);
+                search(searchInput.value.trim());
             }
         });
 
-        // Init
-        loadHomeTracks();
-        renderHistory();
-        showView('home');
+        // Initial load
+        search('electronic');
     </script>
 </body>
 </html>
