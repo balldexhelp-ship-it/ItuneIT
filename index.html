@@ -1,55 +1,39 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>iTuneIT</title>
+    <title>iTuneIT – Free Music Search</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        'spotify-black': '#000000',
-                        'spotify-dark': '#121212',
-                        'spotify-darker': '#0a0a0a',
-                        'spotify-gray': '#181818',
-                        'spotify-lightgray': '#282828',
-                        'spotify-green': '#1DB954',
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        .card-hover:hover { transform: translateY(-4px); }
-        .card-hover:hover .play-btn { opacity: 1; transform: translateY(0); }
-        #mobile-menu-toggle { touch-action: manipulation; pointer-events: auto; z-index: 60; }
+        body { background: #000; color: white; font-family: system-ui, sans-serif; }
+        .card:hover { transform: translateY(-6px); }
+        .card:hover .play-overlay { opacity: 1; }
         audio { width: 100%; height: 34px; margin-top: 8px; }
+        #mobile-menu-toggle { touch-action: manipulation; pointer-events: auto; z-index: 60; }
     </style>
 </head>
-<body class="bg-spotify-black text-white min-h-screen flex flex-col md:flex-row font-sans">
+<body class="min-h-screen flex flex-col md:flex-row">
 
     <!-- Sidebar -->
-    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-72 bg-spotify-darker border-r border-spotify-lightgray z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
+    <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-72 bg-gray-950 border-r border-gray-800 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300">
         <div class="p-6">
             <div class="flex items-center gap-3 mb-10">
-                <img src="https://i.postimg.cc/bwkSCz8P/Untitled1900-20260312002023.png" alt="iTuneIT" class="w-10 h-10 rounded-lg">
-                <span class="text-2xl font-bold tracking-tight">iTuneIT</span>
+                <img src="https://i.postimg.cc/bwkSCz8P/Untitled1900-20260312002023.png" alt="logo" class="w-10 h-10 rounded-lg">
+                <span class="text-2xl font-bold">iTuneIT</span>
             </div>
 
             <nav class="space-y-1 mb-10">
-                <button onclick="showView('home')" class="w-full flex items-center gap-4 px-4 py-3 rounded-md hover:bg-spotify-lightgray transition text-left nav-home bg-spotify-lightgray">
+                <button onclick="showView('home')" class="w-full flex items-center gap-4 px-4 py-3 rounded-md hover:bg-gray-800 transition text-left nav-home bg-gray-800">
                     <i class="fa-solid fa-home w-5"></i>
                     <span>Home</span>
                 </button>
-                <button onclick="showView('search')" class="w-full flex items-center gap-4 px-4 py-3 rounded-md hover:bg-spotify-lightgray transition text-left nav-search">
+                <button onclick="showView('search')" class="w-full flex items-center gap-4 px-4 py-3 rounded-md hover:bg-gray-800 transition text-left nav-search">
                     <i class="fa-solid fa-search w-5"></i>
                     <span>Search</span>
                 </button>
-                <button onclick="showView('library')" class="w-full flex items-center gap-4 px-4 py-3 rounded-md hover:bg-spotify-lightgray transition text-left nav-library">
+                <button onclick="showView('library')" class="w-full flex items-center gap-4 px-4 py-3 rounded-md hover:bg-gray-800 transition text-left nav-library">
                     <i class="fa-solid fa-book w-5"></i>
                     <span>Your Library</span>
                 </button>
@@ -69,28 +53,12 @@
     <main class="flex-1 flex flex-col overflow-hidden">
 
         <!-- Top bar -->
-        <header class="h-16 bg-gradient-to-b from-spotify-black to-transparent px-4 md:px-6 flex items-center relative z-50">
+        <header class="h-16 bg-gradient-to-b from-black to-transparent px-4 md:px-6 flex items-center relative z-50">
             <button id="mobile-menu-toggle" class="md:hidden text-white text-2xl focus:outline-none p-2 -ml-2">
                 <i class="fa-solid fa-bars"></i>
             </button>
 
-            <div class="flex-1 flex justify-center md:justify-start">
-                <div class="hidden md:flex items-center gap-3">
-                    <button class="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-gray-400 hover:text-white">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </button>
-                    <button class="w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-gray-400 hover:text-white">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div class="hidden md:block flex-1 max-w-xl">
-                <div class="bg-spotify-lightgray rounded-full flex items-center px-4 py-2">
-                    <i class="fa-solid fa-search text-gray-500 mr-3"></i>
-                    <input type="text" placeholder="What do you want to play?" class="bg-transparent outline-none w-full text-sm">
-                </div>
-            </div>
+            <div class="flex-1"></div>
         </header>
 
         <!-- Views -->
@@ -106,9 +74,9 @@
             <div id="view-search" class="view hidden flex flex-col items-center pt-10 md:pt-24">
                 <h1 class="text-4xl md:text-6xl font-bold mb-10 text-center">Search the way</h1>
                 <div class="w-full max-w-2xl px-4">
-                    <div class="bg-spotify-lightgray rounded-full flex items-center px-6 py-4 text-lg shadow-2xl">
+                    <div class="bg-gray-900 rounded-full flex items-center px-6 py-4 text-lg shadow-2xl">
                         <i class="fa-solid fa-search text-gray-500 mr-4 text-2xl"></i>
-                        <input id="search-input" type="text" placeholder="Artists, songs, albums..." class="bg-transparent outline-none flex-1 text-lg" autocomplete="off">
+                        <input id="search-input" type="text" placeholder="Artists, songs, genres..." class="bg-transparent outline-none flex-1 text-lg" autocomplete="off">
                     </div>
                     <div id="search-results" class="mt-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
                     <div id="search-loading" class="hidden col-span-full text-center text-gray-400 py-16 text-lg">Searching...</div>
@@ -119,45 +87,40 @@
             <!-- Library -->
             <div id="view-library" class="view hidden">
                 <h1 class="text-3xl sm:text-4xl font-bold mb-8">Your Library</h1>
-                <p class="text-gray-400 mb-8">Recently played items appear here and in the sidebar.</p>
+                <p class="text-gray-400 mb-8">Recently played tracks appear here and in the sidebar.</p>
                 <div id="library-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6"></div>
             </div>
         </div>
 
         <!-- Bottom player -->
-        <div class="fixed bottom-0 left-0 right-0 h-20 bg-spotify-gray border-t border-spotify-lightgray flex items-center px-4 gap-4 z-40">
+        <div class="fixed bottom-0 left-0 right-0 h-20 bg-gray-900 border-t border-gray-800 flex items-center px-4 gap-4 z-40">
             <div class="flex items-center gap-3 flex-1 min-w-0">
                 <div class="w-12 h-12 bg-gray-800 rounded overflow-hidden flex-shrink-0">
-                    <img id="player-cover" src="https://via.placeholder.com/64" alt="" class="w-full h-full object-cover">
+                    <img id="player-art" src="https://via.placeholder.com/64" alt="" class="w-full h-full object-cover">
                 </div>
                 <div class="min-w-0">
-                    <div id="player-name" class="text-sm font-medium truncate">Nothing playing</div>
+                    <div id="player-title" class="text-sm font-medium truncate">Nothing playing</div>
                     <div id="player-artist" class="text-xs text-gray-400 truncate">—</div>
                 </div>
             </div>
 
-            <div class="flex flex-col items-center gap-1 flex-1 max-w-xs">
-                <div class="flex items-center gap-5 md:gap-8 text-gray-300">
-                    <button><i class="fa-solid fa-shuffle fa-sm"></i></button>
-                    <button><i class="fa-solid fa-backward-step"></i></button>
-                    <button id="play-pause-btn" class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-black hover:scale-105 transition">
-                        <i class="fa-solid fa-play ml-0.5"></i>
-                    </button>
-                    <button id="stop-all-btn" class="w-10 h-10 md:w-12 md:h-12 bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-105 transition">
-                        <i class="fa-solid fa-stop"></i>
-                    </button>
-                    <button><i class="fa-solid fa-forward-step"></i></button>
-                    <button><i class="fa-solid fa-repeat fa-sm"></i></button>
-                </div>
-                <div class="w-full h-1 bg-gray-700 rounded-full overflow-hidden">
-                    <div id="progress-bar" class="h-full bg-spotify-green w-0 transition-all duration-300"></div>
-                </div>
+            <div class="flex items-center gap-5 md:gap-8 text-gray-300">
+                <button><i class="fa-solid fa-shuffle fa-sm"></i></button>
+                <button><i class="fa-solid fa-backward-step"></i></button>
+                <button id="play-pause-btn" class="w-10 h-10 md:w-12 md:h-12 bg-green-500 rounded-full flex items-center justify-center text-black hover:scale-105 transition">
+                    <i class="fa-solid fa-play ml-0.5"></i>
+                </button>
+                <button id="stop-all-btn" class="w-10 h-10 md:w-12 md:h-12 bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-105 transition">
+                    <i class="fa-solid fa-stop"></i>
+                </button>
+                <button><i class="fa-solid fa-forward-step"></i></button>
+                <button><i class="fa-solid fa-repeat fa-sm"></i></button>
             </div>
         </div>
     </main>
 
     <script>
-        // Mobile menu
+        // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', () => {
             const toggleBtn = document.getElementById('mobile-menu-toggle');
             const sidebar = document.getElementById('sidebar');
@@ -216,7 +179,7 @@
 
             history.forEach(item => {
                 const el = document.createElement('div');
-                el.className = 'flex gap-3 items-center p-2 rounded-md hover:bg-spotify-lightgray cursor-pointer transition';
+                el.className = 'flex gap-3 items-center p-2 rounded-md hover:bg-gray-800 cursor-pointer transition';
                 el.innerHTML = `
                     <img src="${item.art || 'https://via.placeholder.com/40'}" alt="" class="w-10 h-10 rounded object-cover">
                     <div class="min-w-0">
@@ -232,7 +195,7 @@
             libGrid.innerHTML = '';
             history.forEach(item => {
                 const card = document.createElement('div');
-                card.className = 'bg-spotify-gray p-3 rounded-lg cursor-pointer hover:bg-spotify-lightgray transition';
+                card.className = 'bg-gray-900 p-3 rounded-lg cursor-pointer hover:bg-gray-800 transition';
                 card.innerHTML = `
                     <img src="${item.art || 'https://via.placeholder.com/200'}" class="w-full aspect-square object-cover rounded mb-2">
                     <div class="text-sm font-medium truncate">${item.title}</div>
@@ -249,6 +212,10 @@
                 currentAudio.currentTime = 0;
                 currentAudio = null;
             }
+            document.querySelectorAll('audio').forEach(a => {
+                a.pause();
+                a.currentTime = 0;
+            });
             if (progressTimer) {
                 clearInterval(progressTimer);
                 progressTimer = null;
@@ -262,8 +229,7 @@
         }
 
         function playTrack(data) {
-            // Stop any current audio first
-            stopAllMusic();
+            stopAllMusic(); // Clean slate
 
             document.getElementById('player-cover').src = data.art || 'https://via.placeholder.com/64';
             document.getElementById('player-name').textContent = data.title || 'Unknown';
@@ -273,10 +239,21 @@
                 currentAudio = new Audio(data.preview);
                 currentAudio.play().catch(e => {
                     console.log('Playback failed - likely autoplay policy:', e);
-                    alert('Tap play again or interact with page to start audio (browser rule)');
                 });
                 isPlaying = true;
                 document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
+
+                // Progress animation
+                const duration = currentAudio.duration || 30;
+                progressTimer = setInterval(() => {
+                    const current = currentAudio.currentTime || 0;
+                    const percent = (current / duration) * 100;
+                    document.getElementById('progress-bar').style.width = percent + '%';
+                    if (current >= duration) {
+                        clearInterval(progressTimer);
+                        stopAllMusic();
+                    }
+                }, 200);
             }
 
             addToHistory(data);
@@ -298,36 +275,35 @@
 
         document.getElementById('stop-all-btn').onclick = stopAllMusic;
 
-        async function loadHomeAlbums() {
+        async function loadHomeTracks() {
             const container = document.getElementById('home-content');
-            container.innerHTML = '<p class="text-center text-gray-500 py-16">Loading popular albums...</p>';
+            container.innerHTML = '<p class="text-center text-gray-500 py-16">Loading popular tracks...</p>';
 
             try {
-                const terms = ['popular', 'new music', 'trending', 'top charts'];
-                const term = terms[Math.floor(Math.random() * terms.length)];
-
-                const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(term)}&entity=album&limit=18&country=us`);
+                const res = await fetch('https://api.jamendo.com/v3.0/tracks/?client_id=b6747d04&format=jsonpretty&limit=18&order=popularity_week');
                 const data = await res.json();
 
-                if (!data.results?.length) throw new Error('No results');
+                if (!data.results?.length) throw new Error('No tracks');
 
                 container.innerHTML = '';
                 const section = document.createElement('div');
                 section.innerHTML = `
                     <h2 class="text-2xl font-bold mb-6">Popular right now</h2>
                     <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 md:gap-6">
-                        ${data.results.map(item => {
-                            const art = item.artworkUrl100?.replace('100x100', '600x600') || 'https://via.placeholder.com/600';
+                        ${data.results.map(track => {
+                            const art = track.album_image || track.image || 'https://via.placeholder.com/600';
+                            const preview = track.audio || track.audios?.[0]?.download || '';
                             return `
                                 <div class="bg-spotify-gray p-4 rounded-xl cursor-pointer card-hover group">
                                     <div class="relative">
-                                        <img src="${art}" alt="${item.collectionName}" class="w-full aspect-square object-cover rounded-lg mb-3">
+                                        <img src="${art}" alt="${track.name}" class="w-full aspect-square object-cover rounded-lg mb-3">
                                         <button class="play-btn absolute bottom-5 right-5 w-10 h-10 bg-spotify-green rounded-full flex items-center justify-center opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition shadow-lg">
                                             <i class="fa-solid fa-play text-black ml-1"></i>
                                         </button>
                                     </div>
-                                    <div class="font-medium text-sm truncate">${item.collectionName}</div>
-                                    <div class="text-xs text-gray-400 truncate">${item.artistName}</div>
+                                    <div class="font-medium text-sm truncate">${track.name}</div>
+                                    <div class="text-xs text-gray-400 truncate">${track.artist_name}</div>
+                                    ${preview ? `<audio controls src="${preview}"></audio>` : '<p class="text-xs text-gray-500 mt-2">No preview</p>'}
                                 </div>
                             `;
                         }).join('')}
@@ -340,20 +316,21 @@
                         const titleEl = card.querySelector('.font-medium');
                         const artistEl = card.querySelector('.text-gray-400');
                         const img = card.querySelector('img');
+                        const preview = card.querySelector('audio')?.src || '';
                         playTrack({
                             title: titleEl.textContent,
                             artist: artistEl.textContent,
                             art: img.src,
-                            preview: '' // albums don't have preview
+                            preview
                         });
                     };
                 });
             } catch (err) {
-                container.innerHTML = '<p class="text-center text-gray-500 py-16">Could not load albums</p>';
+                container.innerHTML = '<p class="text-center text-gray-500 py-16">Could not load tracks</p>';
             }
         }
 
-        // Live search + Enter support with iTunes (songs + previews)
+        // Search with Jamendo
         const searchInput = document.getElementById('search-input');
         const resultsDiv = document.getElementById('search-results');
         const loadingDiv = document.getElementById('search-loading');
@@ -373,20 +350,20 @@
             emptyDiv.classList.add('hidden');
             resultsDiv.innerHTML = '';
 
-            fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&entity=song&limit=20&country=us`)
+            fetch(`https://api.jamendo.com/v3.0/tracks/?client_id=b6747d04&format=jsonpretty&limit=20&search=${encodeURIComponent(query)}&order=popularity_week`)
                 .then(res => res.json())
                 .then(data => {
                     loadingDiv.classList.add('hidden');
 
-                    if (data.results.length === 0) {
+                    if (!data.results?.length) {
                         emptyDiv.classList.remove('hidden');
                         return;
                     }
 
                     resultsDiv.innerHTML = '';
-                    data.results.forEach(item => {
-                        const preview = item.previewUrl || '';
-                        const art = item.artworkUrl100?.replace('100x100', '400x400') || 'https://via.placeholder.com/400';
+                    data.results.forEach(track => {
+                        const preview = track.audio || track.audios?.[0]?.download || '';
+                        const art = track.album_image || track.image || 'https://via.placeholder.com/400';
                         const card = document.createElement('div');
                         card.className = 'bg-spotify-gray p-3 rounded-xl cursor-pointer card-hover group';
                         card.innerHTML = `
@@ -396,13 +373,13 @@
                                     <i class="fa-solid fa-play text-black ml-1 text-sm"></i>
                                 </button>
                             </div>
-                            <div class="text-sm font-medium truncate">${item.trackName}</div>
-                            <div class="text-xs text-gray-400 truncate">${item.artistName}</div>
+                            <div class="text-sm font-medium truncate">${track.name}</div>
+                            <div class="text-xs text-gray-400 truncate">${track.artist_name}</div>
                             ${preview ? `<audio controls src="${preview}"></audio>` : '<p class="text-xs text-gray-500 mt-2">No preview</p>'}
                         `;
                         card.onclick = () => playTrack({
-                            title: item.trackName,
-                            artist: item.artistName,
+                            title: track.name,
+                            artist: track.artist_name,
                             art,
                             preview
                         });
@@ -430,7 +407,7 @@
         });
 
         // Init
-        loadHomeAlbums();
+        loadHomeTracks();
         renderHistory();
         showView('home');
     </script>
