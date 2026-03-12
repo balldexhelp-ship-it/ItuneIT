@@ -143,6 +143,9 @@
                     <button id="play-pause-btn" class="w-10 h-10 md:w-12 md:h-12 bg-white rounded-full flex items-center justify-center text-black hover:scale-105 transition">
                         <i class="fa-solid fa-play ml-0.5"></i>
                     </button>
+                    <button id="stop-all-btn" class="w-10 h-10 md:w-12 md:h-12 bg-red-600 rounded-full flex items-center justify-center text-white hover:scale-105 transition">
+                        <i class="fa-solid fa-stop"></i>
+                    </button>
                     <button><i class="fa-solid fa-forward-step"></i></button>
                     <button><i class="fa-solid fa-repeat fa-sm"></i></button>
                 </div>
@@ -178,6 +181,7 @@
         let history = JSON.parse(localStorage.getItem('ituneit_recent') || '[]');
         let currentAudio = null;
         let isPlaying = false;
+        let progressTimer = null;
 
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
@@ -239,25 +243,40 @@
             });
         }
 
+        function stopAllMusic() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                currentAudio = null;
+            }
+            if (progressTimer) {
+                clearInterval(progressTimer);
+                progressTimer = null;
+            }
+            document.getElementById('progress-bar').style.width = '0%';
+            document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-play ml-0.5"></i>';
+            isPlaying = false;
+            document.getElementById('player-name').textContent = 'Nothing playing';
+            document.getElementById('player-artist').textContent = '—';
+            document.getElementById('player-cover').src = 'https://via.placeholder.com/64';
+        }
+
         function playTrack(data) {
+            // Stop any current audio first
+            stopAllMusic();
+
             document.getElementById('player-cover').src = data.art || 'https://via.placeholder.com/64';
             document.getElementById('player-name').textContent = data.title || 'Unknown';
             document.getElementById('player-artist').textContent = data.artist || '—';
 
-            // Stop any previous audio
-            if (currentAudio) {
-                currentAudio.pause();
-                currentAudio = null;
-            }
-
             if (data.preview) {
                 currentAudio = new Audio(data.preview);
                 currentAudio.play().catch(e => {
-                    console.log('Autoplay blocked - user must interact first', e);
-                    alert('Click play again or interact with the page to start audio (browser policy)');
+                    console.log('Playback failed - likely autoplay policy:', e);
+                    alert('Tap play again or interact with page to start audio (browser rule)');
                 });
-            } else {
-                console.log('No preview available for this track');
+                isPlaying = true;
+                document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
             }
 
             addToHistory(data);
@@ -266,12 +285,18 @@
         document.getElementById('play-pause-btn').onclick = () => {
             if (currentAudio) {
                 if (currentAudio.paused) {
-                    currentAudio.play().catch(() => console.log('Play failed'));
+                    currentAudio.play().catch(() => {});
+                    document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-pause"></i>';
+                    isPlaying = true;
                 } else {
                     currentAudio.pause();
+                    document.getElementById('play-pause-btn').innerHTML = '<i class="fa-solid fa-play ml-0.5"></i>';
+                    isPlaying = false;
                 }
             }
         };
+
+        document.getElementById('stop-all-btn').onclick = stopAllMusic;
 
         async function loadHomeAlbums() {
             const container = document.getElementById('home-content');
@@ -373,7 +398,7 @@
                             </div>
                             <div class="text-sm font-medium truncate">${item.trackName}</div>
                             <div class="text-xs text-gray-400 truncate">${item.artistName}</div>
-                            ${preview ? `<audio controls src="${preview}"></audio>` : '<p class="text-xs text-gray-500 mt-2">No preview available</p>'}
+                            ${preview ? `<audio controls src="${preview}"></audio>` : '<p class="text-xs text-gray-500 mt-2">No preview</p>'}
                         `;
                         card.onclick = () => playTrack({
                             title: item.trackName,
